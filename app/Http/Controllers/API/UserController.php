@@ -74,7 +74,7 @@ class UserController extends Controller
 
         Auth::login($user);
 
-        return $this->authenticated($request, $user);
+        return response()->json($user);
     }
 
     public function logout()
