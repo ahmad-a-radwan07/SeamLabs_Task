@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 class PSController extends Controller
 {
     public $temp_array;
+
     public function taskOne($param_one,$param_two)
     {
         $counter = 0;
@@ -30,35 +31,26 @@ class PSController extends Controller
         }
     }
 
+    // 26^l-1  * q
     public function taskTwo($input_string)
     {
-        $this->temp_array = array_map('strval', str_split($input_string));
+        $index = 0;
+        $input_string_arr = array_map('strval', str_split($input_string));
 
-        $matching_array = [];
 
         $alphabet_array = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 
-        array_push($matching_array,$alphabet_array);
-
-        array_push($matching_array,Arr::crossJoin($alphabet_array,$alphabet_array));
-
-        array_push($matching_array,Arr::crossJoin($alphabet_array,$alphabet_array,$alphabet_array));
-
-        $matching_array = Arr::collapse($matching_array);
-
-        $index = Arr::where($matching_array,function($value,$key){
-            if($this->temp_array === $value)
-            {
-                // dd($key);
-                return $key;
-            }
-        });
-
-        foreach($index as $key=>$val)
+        $input_string_len = strlen($input_string);
+        $j = 0;
+        for($i = $input_string_len - 1; $i >= 0; $i--)
         {
-            return response()->json($key+1);
+            if($j < $input_string_len)
+            {
+                $index += pow(26, $i) * (array_search($input_string_arr[$j++],$alphabet_array)+1);
+            }
         }
 
+        return response()->json($index);
     }
 
     public function taskThree($N, $Q)
@@ -81,7 +73,6 @@ class PSController extends Controller
                 $factors = $this->numFactors($q);
 
                 $factor_count = count($factors);
-
 
                 if($factor_count%2 == 0)
                 {
@@ -121,6 +112,7 @@ class PSController extends Controller
             }
         }
         array_push($result,(int)$product);
+
         return $result;
     }
 }
