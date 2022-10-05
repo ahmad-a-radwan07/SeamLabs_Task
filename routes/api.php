@@ -24,10 +24,7 @@ Route::get('task-three/{N}/{Q}',[PSController::class,'taskThree'])->name('task-t
 Route::post('register',[UserController::class,'register'])->name('register');
 Route::post('login',[UserController::class,'login'])->name('login');
 
-Route::get('user/{user}',[UserController::class,'show'])->name('user.show');
-Route::patch('user/{user}',[UserController::class,'update'])->name('user.update');
-Route::delete('user/{user}',[UserController::class,'destroy'])->name('user.delete');
-Route::get('users',[UserController::class,'index'])->name('user.index');
+
 
 
 
@@ -38,6 +35,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout',[UserController::class,'logout'])->name('logout');
 
-
-
+    Route::get('user/{user}',[UserController::class,'show'])->name('user.show');
+    Route::patch('user/{user}',[UserController::class,'update'])->name('user.update');
+    Route::delete('user/{user}',[UserController::class,'destroy'])->name('user.delete');
+    Route::get('users',[UserController::class,'index'])->name('user.index');
 });
